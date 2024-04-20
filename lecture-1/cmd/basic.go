@@ -48,7 +48,8 @@ func zeroTest() {
 
 	fmt.Printf("%v %v %v %q\n", i, f, b, s)
 
-	if b { // condition only works with boolean type
+	// condition only works with boolean type
+	if b {
 		fmt.Println("true")
 	} else {
 		fmt.Println("false")

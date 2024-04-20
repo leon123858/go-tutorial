@@ -46,10 +46,10 @@ func testMySwitch() {
 	case "linux":
 		println("Linux")
 		// fallthrough can execute next case
-		//fallthrough
+		// fallthrough
 	case "windows":
 		println("Windows")
-		//fallthrough
+		// fallthrough
 	default:
 		println("Unknown")
 	}

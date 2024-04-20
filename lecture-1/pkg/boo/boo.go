@@ -1,4 +1,4 @@
-package find
+package boo
 
 type Boo struct {
 	// 大寫開頭, public (不同 pkg 可以 access)
