@@ -413,14 +413,16 @@ func testFibonacci() {
 	fmt.Println("---end---")
 	// 低技巧寫法
 	fibGenerator2 := func() func() int {
-		arr := []int{0, 1}
+		arr := [2]int{0, 1}
 		index := -1
 		return func() int {
 			index++ // index = index + 1
 			if index < 2 {
 				return arr[index]
 			}
-			arr = append(arr, arr[index-1]+arr[index-2])
+			index = 0
+			arr[0] = arr[0] + arr[1]
+			arr[1] = arr[0] + arr[1]
 			return arr[index]
 		}
 	}
@@ -447,14 +449,16 @@ func testFibSpeed() {
 		}
 	}
 	fibGenerator2 := func() func() int {
-		arr := []int{0, 1}
+		arr := [2]int{0, 1}
 		index := -1
 		return func() int {
 			index++ // index = index + 1
 			if index < 2 {
 				return arr[index]
 			}
-			arr = append(arr, arr[index-1]+arr[index-2])
+			index = 0
+			arr[0] = arr[0] + arr[1]
+			arr[1] = arr[0] + arr[1]
 			return arr[index]
 		}
 	}
@@ -469,16 +473,16 @@ func testFibSpeed() {
 	const bigInt = 100000000
 	go func() {
 		defer wg.Done()
-		defer timeTrack(time.Now(), "fib")
+		defer timeTrack(time.Now(), "fib2")
 		for i := 0; i < bigInt; i++ {
-			fib()
+			fib2()
 		}
 	}()
 	go func() {
 		defer wg.Done()
-		defer timeTrack(time.Now(), "fib2")
+		defer timeTrack(time.Now(), "fib")
 		for i := 0; i < bigInt; i++ {
-			fib2()
+			fib()
 		}
 	}()
 	wg.Wait()
