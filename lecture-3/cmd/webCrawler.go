@@ -155,7 +155,7 @@ func main() {
 	// global memory for each goroutine, let each worker know what to do, and when to stop
 	reqStack := requestStack{
 		counter:    0,
-		keyWord:    "GG",
+		keyWord:    "貓貓",
 		stack:      make([]request, 0),
 		mtx:        sync.Mutex{},
 		shouldStop: false,
