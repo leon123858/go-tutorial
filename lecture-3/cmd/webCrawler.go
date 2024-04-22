@@ -9,6 +9,8 @@ import (
 	"sync"
 )
 
+var finished = make([]string, 0)
+
 type fetcher struct {
 	// fetch data
 	client  *http.Client
@@ -54,7 +56,8 @@ func (f *fetcher) fetch(req request) bool {
 	// 提取文章標題
 	doc.Find("div.title a").Each(func(index int, item *goquery.Selection) {
 		title := item.Text()
-		println(title)
+		//println(title)
+		finished = append(finished, title)
 	})
 	return true
 }
@@ -166,4 +169,10 @@ func main() {
 	}
 	// wait for all workers to finish
 	workerPool.wg.Wait()
+
+	// print the result
+	for _, title := range finished {
+		println(title)
+	}
+	println("total: ", len(finished))
 }
