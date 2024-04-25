@@ -2,7 +2,7 @@ package main
 
 import (
 	"fmt"
-	"lec1/pkg/boo"
+	"go-tour/pkg/boo"
 	"strings"
 	"sync"
 	"time"
