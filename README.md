@@ -31,7 +31,30 @@
 
 ## 課程資料
 
+1. lecture 1
+2. lecture 2
+3. lecture 3
+4. lecture 4
+5. lecture 5
+6. lecture 6
+7. lecture 7
+8. lecture 8
+9. lecture 9
+10. lecture 10
+
 ## 課程練習
+
+1. lecture 1
+   - [go 語法](./go-tour)
+2. lecture 2
+3. lecture 3
+4. lecture 4
+5. lecture 5
+6. lecture 6
+7. lecture 7
+8. lecture 8
+9. lecture 9
+10. lecture 10
 
 ## 課程問卷
 
