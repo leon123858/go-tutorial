@@ -1,7 +1,8 @@
-package service
+package user
 
 import (
 	"db/model"
+	"db/repository/mongo"
 	"db/repository/orm"
 	"db/repository/pg"
 )
@@ -11,14 +12,15 @@ type UserServiceType int
 const (
 	Postgress UserServiceType = iota
 	PgOrm                     // ORM
+	Mongo
 )
 
 type UserService interface {
 	InitTable() error
 	GetType() UserServiceType
-	CreateUser(user *model.User) error
-	UpdateUser(user *model.User) error
-	DeleteUser(id int) error
+	CreateUser(email, name string) error
+	UpdateUser(id, email string) error
+	DeleteUser(id string) error
 	GetUserList() ([]*model.User, error)
 }
 
@@ -33,6 +35,10 @@ func NewUserService(t UserServiceType) *UserService {
 		ret = new(PgOrmUserService)
 		ret.(*PgOrmUserService).alias = t
 		ret.(*PgOrmUserService).gorm = orm.GetDB()
+	case Mongo:
+		ret = new(MongoUserService)
+		ret.(*MongoUserService).alias = t
+		ret.(*MongoUserService).Client, ret.(*MongoUserService).DB = mongo.GetDB()
 	}
 	return &ret
 }
@@ -43,5 +49,7 @@ func Close(service UserService) {
 		pg.Close()
 	case PgOrm:
 		orm.Close()
+	case Mongo:
+		mongo.Close()
 	}
 }

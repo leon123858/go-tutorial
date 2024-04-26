@@ -1,4 +1,4 @@
-package service
+package user
 
 import (
 	"database/sql"
@@ -25,23 +25,23 @@ func (pgs *PostgressUserService) GetType() UserServiceType {
 	return pgs.alias
 }
 
-func (pgs *PostgressUserService) CreateUser(user *model.User) error {
-	err := pg.InsertRecord(pgs.db, user.Name, user.Email)
+func (pgs *PostgressUserService) CreateUser(email, name string) error {
+	err := pg.InsertRecord(pgs.db, name, email)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (pgs *PostgressUserService) UpdateUser(user *model.User) error {
-	err := pg.UpdateRecord(pgs.db, user.ID, user.Email)
+func (pgs *PostgressUserService) UpdateUser(id, email string) error {
+	err := pg.UpdateRecord(pgs.db, id, email)
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func (pgs *PostgressUserService) DeleteUser(id int) error {
+func (pgs *PostgressUserService) DeleteUser(id string) error {
 	err := pg.DeleteRecord(pgs.db, id)
 	if err != nil {
 		return err

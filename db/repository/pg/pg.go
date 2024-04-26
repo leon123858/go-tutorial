@@ -4,6 +4,7 @@ import (
 	"database/sql"
 	"db/model"
 	"fmt"
+	"github.com/google/uuid"
 	"log"
 
 	_ "github.com/lib/pq" // PostgreSQL 驅動
@@ -53,7 +54,7 @@ func Close() {
 func CreateTable(db *sql.DB) error {
 	query := `
         CREATE TABLE IF NOT EXISTS users (
-            id SERIAL PRIMARY KEY,
+            id VARCHAR(255) PRIMARY KEY,
             name VARCHAR(255) NOT NULL,
             email VARCHAR(255) UNIQUE NOT NULL
         );
@@ -69,10 +70,10 @@ func CreateTable(db *sql.DB) error {
 
 func InsertRecord(db *sql.DB, name, email string) error {
 	query := `
-        INSERT INTO users (name, email)
-        VALUES ($1, $2);
+        INSERT INTO users (name, email, id)
+        VALUES ($1, $2, $3);
     `
-	_, err := db.Exec(query, name, email)
+	_, err := db.Exec(query, name, email, uuid.New().String())
 	if err != nil {
 		log.Println(err)
 		return err
@@ -100,8 +101,7 @@ func QueryRecords(db *sql.DB) ([]*model.User, error) {
 	users := make([]*model.User, 0)
 	fmt.Println("Records:")
 	for rows.Next() {
-		var id int
-		var name, email string
+		var id, name, email string
 		err = rows.Scan(&id, &name, &email)
 		if err != nil {
 			log.Println(err)
@@ -117,7 +117,7 @@ func QueryRecords(db *sql.DB) ([]*model.User, error) {
 	return users, nil
 }
 
-func UpdateRecord(db *sql.DB, id int, email string) error {
+func UpdateRecord(db *sql.DB, id, email string) error {
 	query := `
         UPDATE users
         SET email = $1
@@ -132,7 +132,7 @@ func UpdateRecord(db *sql.DB, id int, email string) error {
 	return nil
 }
 
-func DeleteRecord(db *sql.DB, id int) error {
+func DeleteRecord(db *sql.DB, id string) error {
 	query := `
         DELETE FROM users
         WHERE id = $1;

@@ -1,9 +1,9 @@
 package orm
 
 import (
-	"database/sql"
 	"db/model"
 	"fmt"
+	"github.com/google/uuid"
 	"log"
 
 	"gorm.io/driver/postgres"
@@ -45,23 +45,16 @@ func Close() {
 	gormDB = nil
 }
 
-func CreateTable(db *sql.DB) error {
-	query := `
-		CREATE TABLE IF NOT EXISTS users (
-			id SERIAL PRIMARY KEY,
-			name VARCHAR(255) NOT NULL,
-			email VARCHAR(255) UNIQUE NOT NULL
-		);
-	`
-	_, err := db.Exec(query)
+func CreateTable() error {
+	err := gormDB.AutoMigrate(&model.User{})
 	if err != nil {
 		return err
 	}
 	return nil
 }
 
-func InsertRecord(db *sql.DB, name, email string) error {
-	user := model.User{Name: "John Doe", Email: "john@example.com"}
+func InsertRecord(name, email string) error {
+	user := model.User{Name: name, Email: email, ID: uuid.New().String()}
 	result := gormDB.Create(&user)
 	if result.Error != nil {
 		return result.Error
@@ -69,34 +62,17 @@ func InsertRecord(db *sql.DB, name, email string) error {
 	return nil
 }
 
-func UpdateRecord(db *sql.DB, id int, email string) error {
-	user := model.User{}
-	result := gormDB.First(&user, id)
-	if result.Error != nil {
-		return result.Error
-	}
-	user.Email = email
-	result = gormDB.Save(&user)
-	if result.Error != nil {
-		return result.Error
-	}
-	return nil
+func UpdateRecord(id, email string) error {
+	err := gormDB.Model(&model.User{}).Where("id = ?", id).Update("email", email).Error
+	return err
 }
 
-func DeleteRecord(db *sql.DB, id int) error {
-	user := model.User{}
-	result := gormDB.First(&user, id)
-	if result.Error != nil {
-		return result.Error
-	}
-	result = gormDB.Delete(&user)
-	if result.Error != nil {
-		return result.Error
-	}
-	return nil
+func DeleteRecord(id string) error {
+	err := gormDB.Where("id = ?", id).Delete(&model.User{}).Error
+	return err
 }
 
-func QueryRecords(db *sql.DB) ([]*model.User, error) {
+func QueryRecords() ([]*model.User, error) {
 	users := make([]*model.User, 0)
 	result := gormDB.Find(&users)
 	if result.Error != nil {

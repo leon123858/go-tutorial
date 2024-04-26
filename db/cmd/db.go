@@ -2,49 +2,56 @@ package main
 
 import (
 	"db/model"
-	"db/service"
+	"db/service/user"
 	"fmt"
+	"github.com/google/uuid"
 )
 
 func main() {
 	// init Tables
-	userService := service.NewUserService(service.PgOrm)
-	//userService := service.NewUserService(service.Postgress)
+	//userService := tmpUser.NewUserService(tmpUser.PgOrm)
+	//userService := tmpUser.NewUserService(tmpUser.Postgress)
+	userService := user.NewUserService(user.Mongo)
 	if err := (*userService).InitTable(); err != nil {
+		panic(err)
 		return
 	}
 
 	// Create
 	for i := 0; i < 10; i++ {
-		newName := fmt.Sprintf("test%d", i)
-		newEmail := fmt.Sprintf("test%d@abc.com", i)
+		randomStr := uuid.New().String()
+		newName := fmt.Sprintf("test%s", randomStr)
+		newEmail := fmt.Sprintf("test%s@abc.com", randomStr)
 		user := &model.User{
 			Name:  newName,
 			Email: newEmail,
 		}
-		if err := (*userService).CreateUser(user); err != nil {
-			return
+		if err := (*userService).CreateUser(user.Email, user.Name); err != nil {
+			panic(err)
 		}
 	}
 
 	// Read
 	users, err := (*userService).GetUserList()
 	if err != nil {
+		panic(err)
 		return
 	}
-	for _, user := range users {
-		println(user.Name, user.Email)
+	for _, tmpUser := range users {
+		println(tmpUser.Name, tmpUser.Email)
 	}
 
 	// Update
-	users[0].Email = "newEmail"
-	if err := (*userService).UpdateUser(users[0]); err != nil {
+	users[0].Email = "newEmail-" + uuid.NewString()
+	if err := (*userService).UpdateUser(users[0].ID, users[0].Email); err != nil {
+		panic(err)
 		return
 	}
 
 	// Read
 	users, err = (*userService).GetUserList()
 	if err != nil {
+		panic(err)
 		return
 	}
 	for _, user := range users {
@@ -54,6 +61,7 @@ func main() {
 	// Delete
 	for _, user := range users {
 		if err := (*userService).DeleteUser(user.ID); err != nil {
+			panic(err)
 			return
 		}
 	}
@@ -62,6 +70,7 @@ func main() {
 	println("After delete")
 	users, err = (*userService).GetUserList()
 	if err != nil {
+		panic(err)
 		return
 	}
 	for _, user := range users {
@@ -69,5 +78,5 @@ func main() {
 	}
 
 	// Close
-	service.Close(*userService)
+	user.Close(*userService)
 }
