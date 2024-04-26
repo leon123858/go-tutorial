@@ -8,8 +8,10 @@
 
 ## Install
 
-postgresql
+db in docker
 
 ```bash
 docker run --name some-postgres -e POSTGRES_PASSWORD=mysecretpassword -p 0.0.0.0:5432:5432 -d postgres
+docker run -d -p 27017:27017 --name mongodb mongo
+docker run -d --name redis-container -p 6379:6379 redis
 ```
