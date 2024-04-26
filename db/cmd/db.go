@@ -8,10 +8,14 @@ import (
 )
 
 func main() {
+	var mode user.UserServiceType
+	// mode = user.Mongo
+	// mode = user.PgOrm
+	// mode = user.Postgress
+	mode = user.Mongo
+	userService := user.NewUserService(mode)
+
 	// init Tables
-	//userService := tmpUser.NewUserService(tmpUser.PgOrm)
-	//userService := tmpUser.NewUserService(tmpUser.Postgress)
-	userService := user.NewUserService(user.Mongo)
 	if err := (*userService).InitTable(); err != nil {
 		panic(err)
 		return
@@ -22,11 +26,11 @@ func main() {
 		randomStr := uuid.New().String()
 		newName := fmt.Sprintf("test%s", randomStr)
 		newEmail := fmt.Sprintf("test%s@abc.com", randomStr)
-		user := &model.User{
+		userTmp := &model.User{
 			Name:  newName,
 			Email: newEmail,
 		}
-		if err := (*userService).CreateUser(user.Email, user.Name); err != nil {
+		if err := (*userService).CreateUser(userTmp.Email, userTmp.Name); err != nil {
 			panic(err)
 		}
 	}
@@ -37,8 +41,10 @@ func main() {
 		panic(err)
 		return
 	}
-	for _, tmpUser := range users {
-		println(tmpUser.Name, tmpUser.Email)
+	{
+		for _, v := range users {
+			println(v.Name, v.Email)
+		}
 	}
 
 	// Update
@@ -54,15 +60,19 @@ func main() {
 		panic(err)
 		return
 	}
-	for _, user := range users {
-		println(user.Name, user.Email)
+	{
+		for _, v := range users {
+			println(v.Name, v.Email)
+		}
 	}
 
 	// Delete
-	for _, user := range users {
-		if err := (*userService).DeleteUser(user.ID); err != nil {
-			panic(err)
-			return
+	{
+		for _, v := range users {
+			if err := (*userService).DeleteUser(v.ID); err != nil {
+				panic(err)
+				return
+			}
 		}
 	}
 
@@ -73,8 +83,10 @@ func main() {
 		panic(err)
 		return
 	}
-	for _, user := range users {
-		println(user.Name)
+	{
+		for _, v := range users {
+			println(v.Name)
+		}
 	}
 
 	// Close
