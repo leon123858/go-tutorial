@@ -7,14 +7,7 @@ import (
 	"github.com/google/uuid"
 )
 
-func main() {
-	var mode user.UserServiceType
-	// mode = user.Mongo
-	// mode = user.PgOrm
-	// mode = user.Postgress
-	mode = user.Mongo
-	userService := user.NewUserService(mode)
-
+func processUser(userService *user.UserService) {
 	// init Tables
 	if err := (*userService).InitTable(); err != nil {
 		panic(err)
@@ -91,4 +84,12 @@ func main() {
 
 	// Close
 	user.Close(*userService)
+}
+
+func main() {
+	var mode user.UserServiceType
+	mode = user.Rdb
+	userService := user.NewUserService(mode)
+
+	processUser(userService)
 }

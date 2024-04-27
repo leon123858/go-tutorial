@@ -13,3 +13,8 @@ type MongoUser struct {
 	Name  string             `json:"name" bson:"name"`
 	Email string             `json:"email" bson:"email"`
 }
+
+type RedisUser struct {
+	Name  string `json:"name"`
+	Email string `json:"email"`
+}
