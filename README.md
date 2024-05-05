@@ -42,7 +42,7 @@
 9. lecture 9
 10. lecture 10
 
-## 課程練習
+## 課程作業
 
 1. lecture 1
    - [go 語法](./go-tour)
@@ -57,5 +57,8 @@
 10. lecture 10
 
 ## 課程問卷
-
-## 課程作業
+- [Baseline Assessment/Need Alalysis]()
+  <!--姓名_日期_回饋--!>
+- [課後調查]()
+  <!--姓名_作業--!>
+- [作業繳交]()
