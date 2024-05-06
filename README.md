@@ -32,6 +32,7 @@
 ## 課程資料
 
 1. lecture 1
+   - ppt: [go 簡介](./ppt/introduction.pdf)
 2. lecture 2
 3. lecture 3
 4. lecture 4
@@ -42,7 +43,7 @@
 9. lecture 9
 10. lecture 10
 
-## 課程作業
+## 課程程式碼
 
 1. lecture 1
    - [go 語法](./go-tour)
@@ -58,7 +59,7 @@
 
 ## 課程問卷
 - [Baseline Assessment/Need Alalysis](https://docs.google.com/forms/d/e/1FAIpQLScnzrqdXPqXW5OJgNMPmIh86V8tELuapGzm0bhBa_XFgdzgHw/viewform?usp=sharing)
-  <!--姓名_日期_回饋--!>
+  <!--姓名_日期_回饋-->
 - [課後調查](https://docs.google.com/forms/d/e/1FAIpQLScphHcVpaldyziaRwJls0Pc_w-U8S44D3MrMZbid4OYAKqtUQ/viewform?usp=sharing)
-  <!--姓名_作業--!>
+  <!--姓名_作業-->
 - [作業繳交](https://docs.google.com/forms/d/e/1FAIpQLSebOsE9iTw8VmSBPus1oeFNBo2t2BhhYpGCPLl7KgIAMlk94A/viewform?usp=sharing)
