@@ -65,15 +65,38 @@ func main() {
 	nowLabel := widget.NewLabel(now.Format("2006-01-02 15:04:05"))
 	go func() {
 		for {
-			time.Sleep(1 * time.Second)
+			time.Sleep(time.Second)
 			now = time.Now()
 			nowLabel.SetText(now.Format("2006-01-02 15:04:05"))
 		}
 	}()
 
+	// counter
+	//counter := 0
+	counterWidget := widget.NewLabel("0")
+	//mtx := &sync.Mutex{}
+	//go func() {
+	//	for i := 0; i < 100000; i++ {
+	//		mtx.Lock()
+	//		counter++
+	//		mtx.Unlock()
+	//	}
+	//	strCounter := strconv.Itoa(counter)
+	//	counterWidget.SetText(strCounter)
+	//}()
+	//go func() {
+	//	for i := 0; i < 100000; i++ {
+	//		mtx.Lock()
+	//		counter++
+	//		mtx.Unlock()
+	//	}
+	//	strCounter := strconv.Itoa(counter)
+	//	counterWidget.SetText(strCounter)
+	//}()
+
 	content := container.NewBorder(
 		container.NewVBox(title, space1, space2, input, addButton, deleteAllButton),
-		nowLabel, nil, nil,
+		nowLabel, counterWidget, nil,
 		list,
 	)
 
