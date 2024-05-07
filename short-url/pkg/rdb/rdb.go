@@ -51,14 +51,6 @@ func (c *Client) SetUrl(shortUrl string, url Url) error {
 	return nil
 }
 
-func (c *Client) fetchFromDB(shortUrl string) error {
-	_, err := c.rdb.Del(c.ctx, shortUrl).Result()
-	if err != nil {
-		return err
-	}
-	return nil
-}
-
 func (c *Client) GetUrl(shortUrl string) (Url, error) {
 	val, err := c.rdb.Get(c.ctx, shortUrl).Result()
 	if errors.Is(err, goredislib.Nil) {
