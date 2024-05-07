@@ -1,0 +1,43 @@
+basePath: /v2
+host: petstore.swagger.io
+info:
+  contact:
+    email: support@swagger.io
+    name: API Support
+    url: http://www.swagger.io/support
+  description: This is a sample server Petstore server.
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  termsOfService: http://swagger.io/terms/
+  title: Swagger Example API
+  version: "1.0"
+paths:
+  /community/getCommunityList:
+    get:
+      description: 切換社區, 選擇社區用
+      parameters:
+      - description: 用戶 firebase id
+        in: query
+        name: userId
+        required: true
+        type: string
+      - description: 社區 id, 用來篩選特定社區, 測權限用的, 無權限回傳空陣列
+        in: query
+        name: communityId
+        type: string
+      responses:
+        "200":
+          description: OK
+          schema:
+            items:
+              type: string
+            type: array
+        "400":
+          description: Bad Request
+          schema:
+            type: string
+      summary: 獲取用戶擁有的社區列表
+      tags:
+      - community
+swagger: "2.0"
