@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	_ "short-url/docs"
+	"short-url/internal/controller/url"
 	"time"
 )
 
@@ -31,14 +32,8 @@ func main() {
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// Routes
-	e.GET("/:token", func(c echo.Context) error {
-		// get the URL
-		return c.String(http.StatusOK, "get")
-	})
-	e.POST("/shorten", func(c echo.Context) error {
-		// shorten the URL
-		return c.String(http.StatusOK, "shorten")
-	})
+	e.GET("/:token", url.GetLongURL)
+	e.POST("/shorten", url.SetSortURL)
 
 	admin := e.Group("/admin")
 	admin.GET("/:password", func(c echo.Context) error {

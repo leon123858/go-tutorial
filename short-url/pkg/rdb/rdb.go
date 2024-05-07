@@ -51,41 +51,22 @@ func (c *Client) SetUrl(shortUrl string, url Url) error {
 	return nil
 }
 
+func (c *Client) fetchFromDB(shortUrl string) error {
+	_, err := c.rdb.Del(c.ctx, shortUrl).Result()
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 func (c *Client) GetUrl(shortUrl string) (Url, error) {
 	val, err := c.rdb.Get(c.ctx, shortUrl).Result()
 	if errors.Is(err, goredislib.Nil) {
-		// key does not exist
-		mutex := c.rs.NewMutex(shortUrl, redsync.WithExpiry(5*time.Second), redsync.WithTries(1))
+		// key does not exist, should try more than one time
+		mutex := c.rs.NewMutex(shortUrl+"-lock", redsync.WithExpiry(5*time.Second), redsync.WithTries(1))
 		// try to acquire lock
-		err := mutex.Lock()
-		switch {
-		case err == nil:
-			{
-				// lock acquired, do something here
-				defer func(mutex *redsync.Mutex) {
-					_, err := mutex.Unlock()
-					if err != nil {
-						// handle error
-						println("lock can not unlock", err.Error())
-					}
-				}(mutex)
-				// get data from mongo
-				url, err := c.mdb.FindUrl(shortUrl)
-				if err != nil {
-					return Url{}, err
-				}
-				// set data to redis
-				final := Url{
-					Password: url.Password,
-					LongURL:  url.LongURL,
-				}
-				err = c.SetUrl(shortUrl, final)
-				if err != nil {
-					return Url{}, err
-				}
-				return final, nil
-			}
-		case errors.Is(err, redsync.ErrFailed):
+		err = mutex.Lock()
+		if err != nil {
 			// lock not acquired
 			time.Sleep(3 * time.Second)
 			// try again
@@ -94,11 +75,33 @@ func (c *Client) GetUrl(shortUrl string) (Url, error) {
 			if innerErr != nil {
 				return Url{}, innerErr
 			}
+			goto res
 		}
-		return Url{}, err
+		defer func(mutex *redsync.Mutex) {
+			_, err := mutex.Unlock()
+			if err != nil {
+				println("unlock failed", err.Error())
+			}
+		}(mutex)
+		// lock acquired, do something here
+		var url mongo.Url
+		url, err = c.mdb.FindUrl(shortUrl)
+		if err != nil {
+			return Url{}, err
+		}
+		final := Url{
+			Password: url.Password,
+			LongURL:  url.LongURL,
+		}
+		err = c.SetUrl(shortUrl, final)
+		if err != nil {
+			return Url{}, err
+		}
+		return final, nil
 	} else if err != nil {
 		return Url{}, err
 	}
+res:
 	var url Url
 	err = json.Unmarshal([]byte(val), &url)
 	if err != nil {

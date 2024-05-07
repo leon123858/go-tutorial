@@ -17,6 +17,7 @@ init:
 	go get -u github.com/swaggo/echo-swagger
 
 test:
+	go clean -testcache
 	go test -v ./... -cover
 
 fmt:

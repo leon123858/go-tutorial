@@ -63,8 +63,10 @@ func (c *Client) InitKeyIndex() error {
 	return err
 }
 
-func (c *Client) CreateKey(key key) error {
-	_, err := c.DB.Collection("keys").InsertOne(c.ctx, key)
+func (c *Client) CreateKey(newKey string) error {
+	_, err := c.DB.Collection("keys").InsertOne(c.ctx, key{
+		Key: newKey,
+	})
 	return err
 }
 

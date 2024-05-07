@@ -6,27 +6,48 @@ import (
 
 const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 
-func GenerateKeys(num int, seed int64) []string {
+func GenerateKeys(num int, seed int64, cb func(k string) error) []string {
+	if num <= 0 {
+		return []string{}
+	}
+
+	// local random string
 	generator := rand.New(rand.NewSource(seed))
+	result := make(chan string, num)
+	for i := 0; i < num; i++ {
+		go generateKey(generator, result)
+	}
 
-	keys := make(map[string]bool)
-	result := make([]string, 0, len(charset))
+	// check in global db by cb
+	final := make(chan string, num)
+	for i := 0; i < num; i++ {
+		key := <-result
+		go func(k string) {
+			err := cb(key)
+			if err == nil {
+				final <- key
+			} else {
+				final <- ""
+			}
+		}(key)
+	}
 
-	for len(result) < num {
-		key := generateKey(generator)
-		if _, exists := keys[key]; !exists {
-			keys[key] = true
-			result = append(result, key)
+	// bind result and return in local
+	keys := make([]string, 0)
+	for i := 0; i < num; i++ {
+		k := <-final
+		if k != "" {
+			keys = append(keys, k)
 		}
 	}
 
-	return result
+	return keys
 }
 
-func generateKey(randGen *rand.Rand) string {
+func generateKey(randGen *rand.Rand, result chan string) {
 	b := make([]byte, 6)
 	for i := range b {
 		b[i] = charset[randGen.Intn(len(charset))]
 	}
-	return string(b)
+	result <- string(b)
 }

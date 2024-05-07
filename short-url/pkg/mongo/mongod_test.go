@@ -346,37 +346,27 @@ func TestClient_InitKeyIndex(t *testing.T) {
 	setup()
 	defer teardown()
 
-	_ = client.CreateKey(key{
-		Key: "key",
-	})
+	_ = client.CreateKey("key")
 
 	// create index
 	err := client.InitKeyIndex()
 	assert.Nil(t, err)
 
 	// set not unique key
-	err = client.CreateKey(key{
-		Key: "key",
-	})
+	err = client.CreateKey("key")
 	assert.NotNil(t, err)
 
 	// set unique key
-	err = client.CreateKey(key{
-		Key: "key2",
-	})
+	err = client.CreateKey("key2")
 	assert.Nil(t, err)
 
 	// drop the db
 	_ = dropDB(client)
 
 	// create 2 same keys
-	err = client.CreateKey(key{
-		Key: "key",
-	})
+	err = client.CreateKey("key")
 	assert.Nil(t, err)
-	err = client.CreateKey(key{
-		Key: "key",
-	})
+	err = client.CreateKey("key")
 	assert.Nil(t, err)
 
 	// create index error
@@ -388,15 +378,9 @@ func TestClient_IsKeyExist(t *testing.T) {
 	setup()
 	defer teardown()
 	_ = client.InitKeyIndex()
-	_ = client.CreateKey(key{
-		Key: "key",
-	})
-	_ = client.CreateKey(key{
-		Key: "key2",
-	})
-	_ = client.CreateKey(key{
-		Key: "key3",
-	})
+	_ = client.CreateKey("key")
+	_ = client.CreateKey("key2")
+	_ = client.CreateKey("key3")
 
 	isExist, err := client.IsKeyExist("key")
 	assert.Nil(t, err)
