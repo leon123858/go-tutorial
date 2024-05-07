@@ -54,7 +54,7 @@ func (c *Client) SetUrl(shortUrl string, url Url) error {
 func (c *Client) GetUrl(shortUrl string) (Url, error) {
 	val, err := c.rdb.Get(c.ctx, shortUrl).Result()
 	if errors.Is(err, goredislib.Nil) {
-		// key does not exist, should try more than one time
+		// key does not exist
 		mutex := c.rs.NewMutex(shortUrl+"-lock", redsync.WithExpiry(5*time.Second), redsync.WithTries(1))
 		// try to acquire lock
 		err = mutex.Lock()

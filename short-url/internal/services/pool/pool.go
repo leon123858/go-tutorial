@@ -106,5 +106,11 @@ func NewUrlPool() (pool IUrlPool, err error) {
 		mtx:   &sync.Mutex{},
 		keys:  make([]string, 0),
 	}
+
+	// migrate the DB
+	err = mp.db.InitKeyIndex()
+	if err != nil {
+		return nil, err
+	}
 	return pool, nil
 }
