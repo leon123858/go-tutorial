@@ -8,6 +8,7 @@ import (
 	"log"
 	"net/http"
 	_ "short-url/docs"
+	adminService "short-url/internal/controller/admin"
 	"short-url/internal/controller/url"
 	"time"
 )
@@ -36,12 +37,8 @@ func main() {
 	e.POST("/shorten", url.SetSortURL)
 
 	admin := e.Group("/admin")
-	admin.GET("/:password", func(c echo.Context) error {
-		return c.String(http.StatusOK, "analytics")
-	})
-	admin.POST("/", func(c echo.Context) error {
-		return c.String(http.StatusOK, "password")
-	})
+	admin.GET("/statistic/:password", adminService.GetAdminStatistics)
+	admin.POST("/register", adminService.CreateAdmin)
 
 	fmt.Println("Starting server at http://127.0.0.1:8080")
 	fmt.Println("Swagger docs at http://127.0.0.1:8080/swagger/index.html")
