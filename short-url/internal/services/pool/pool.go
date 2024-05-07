@@ -11,7 +11,7 @@ import (
 
 type IUrlPool interface {
 	// GetLongURL get the long URL from the short URL
-	GetLongURL(shortURL string) (string, error)
+	GetLongURL(shortURL string) (mongo.Url, error)
 	// CreateShortURL create a short URL from the long URL
 	CreateShortURL(longURL, password string) (string, error)
 }
@@ -31,13 +31,13 @@ type UrlPoolCacheImpl struct {
 	cache *rdb.Client
 }
 
-func (up *UrlPoolCacheImpl) GetUrl(shortURL string) (string, error) {
+func (up *UrlPoolCacheImpl) GetUrl(shortURL string) (rdb.Url, error) {
 	// get the long URL from the cache, cache miss will hit DB
 	url, err := up.cache.GetUrl(shortURL)
 	if err != nil {
-		return "", err
+		return rdb.Url{}, err
 	}
-	return url.LongURL, nil
+	return url, nil
 }
 
 func (up *UrlPoolDBImpl) CreateUrl(shortURL, longURL, password string) error {
@@ -58,13 +58,17 @@ func (up *UrlPoolDBImpl) CreateNewTokens(num int) ([]string, error) {
 	return keys, nil
 }
 
-func (up *UrlPool) GetLongURL(shortURL string) (string, error) {
+func (up *UrlPool) GetLongURL(shortURL string) (mongo.Url, error) {
 	// check cache, cache miss will hit DB
-	longURL, err := up.cache.GetUrl(shortURL)
+	rdbUrl, err := up.cache.GetUrl(shortURL)
 	if err != nil {
-		return "", err
+		return mongo.Url{}, err
 	}
-	return longURL, nil
+	return mongo.Url{
+		ShortURL: shortURL,
+		LongURL:  rdbUrl.LongURL,
+		Password: rdbUrl.Password,
+	}, nil
 }
 
 func (up *UrlPool) CreateShortURL(longURL, password string) (string, error) {

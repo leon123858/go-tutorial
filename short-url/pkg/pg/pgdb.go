@@ -78,11 +78,10 @@ func (c *Client) CreateUser(email string) (string, error) {
 	return uid, nil
 }
 
-func (c *Client) FindEventByUser(email string) ([]Event, error) {
+func (c *Client) FindEventByUser(password string) ([]Event, error) {
 	var events []Event
-	// query for events join users table on Password
-	query := c.Db.Joins("JOIN users ON events.password = users.password")
-	tx := query.Where("users.email = ?", email).Find(&events)
+	// query for events where password = password
+	tx := c.Db.Where("password = ?", password).Find(&events)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

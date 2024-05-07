@@ -7,10 +7,10 @@ import (
 	_ "short-url/pkg/pg"
 )
 
-var userService users.IUserService
+var UserService users.IUserService
 
 func init() {
-	userService = users.NewUserService()
+	UserService = users.NewUserService()
 }
 
 // GetAdminStatistics godoc
@@ -26,9 +26,9 @@ func init() {
 //	@Router			/admin/statistic/{password} [get]
 func GetAdminStatistics(c echo.Context) error {
 	// get pwd on url path
-	pwd := c.Param("password")
+	password := c.Param("password")
 	// get statistics
-	events, err := userService.GetUserStatistics(pwd)
+	events, err := UserService.GetUserStatistics(password)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}
@@ -53,7 +53,7 @@ func CreateAdmin(c echo.Context) error {
 	if err := c.Bind(req); err != nil {
 		return c.JSON(http.StatusBadRequest, err)
 	}
-	pwd, err := userService.CreateUser(req.Email)
+	pwd, err := UserService.CreateUser(req.Email)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, err)
 	}

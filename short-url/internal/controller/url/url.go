@@ -6,11 +6,11 @@ import (
 	"short-url/internal/services/pool"
 )
 
-var up pool.IUrlPool
+var Up pool.IUrlPool
 
 func init() {
 	var err error
-	up, err = pool.NewUrlPool()
+	Up, err = pool.NewUrlPool()
 	if err != nil {
 		panic("pool init error")
 	}
@@ -31,11 +31,13 @@ func GetLongURL(c echo.Context) error {
 	// get the token in the path
 	token := c.Param("token")
 	// get the URL
-	url, err := up.GetLongURL(token)
+	url, err := Up.GetLongURL(token)
 	if err != nil {
 		return c.String(http.StatusNotFound, "not found")
 	}
-	return c.Redirect(http.StatusFound, url)
+	// for middleware record event
+	c.Set("url", url)
+	return c.Redirect(http.StatusFound, url.LongURL)
 }
 
 // SetSortURL godoc
@@ -57,7 +59,7 @@ func SetSortURL(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "invalid request")
 	}
 	// create short URL
-	shortURL, err := up.CreateShortURL(req.URL, req.Password)
+	shortURL, err := Up.CreateShortURL(req.URL, req.Password)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, "create short URL error")
 	}

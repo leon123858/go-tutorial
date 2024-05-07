@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"errors"
 	"fmt"
 	"github.com/labstack/echo/v4"
@@ -10,6 +11,8 @@ import (
 	_ "short-url/docs"
 	adminService "short-url/internal/controller/admin"
 	"short-url/internal/controller/url"
+	"short-url/internal/middleware/event"
+	"short-url/pkg/pg"
 	"time"
 )
 
@@ -27,13 +30,14 @@ import (
 // @host		127.0.0.1:8080
 // @BasePath	/
 func main() {
+	StartMQServer()
 	e := echo.New()
 
 	// swagger docs
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
 	// Routes
-	e.GET("/:token", url.GetLongURL)
+	e.GET("/:token", url.GetLongURL, event.RecordEvent)
 	e.POST("/shorten", url.SetSortURL)
 
 	admin := e.Group("/admin")
@@ -50,4 +54,28 @@ func main() {
 	if err := s.ListenAndServe(); !errors.Is(err, http.ErrServerClosed) {
 		log.Fatal(err)
 	}
+}
+
+func StartMQServer() {
+	// start mq server
+	go func() {
+		for {
+			dataChan, err := event.MQ.Consume()
+			if err != nil {
+				println("mq consume error", err.Error())
+			}
+			select {
+			case data := <-dataChan:
+				var e pg.Event
+				err = json.Unmarshal(data.Body, &e)
+				if err != nil {
+					println("record event error", err.Error())
+				}
+				err = adminService.UserService.CreateEvent(e)
+				if err != nil {
+					println("record event error", err.Error())
+				}
+			}
+		}
+	}()
 }

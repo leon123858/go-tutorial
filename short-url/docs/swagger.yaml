@@ -37,16 +37,16 @@ paths:
   /{token}:
     get:
       consumes:
-        - application/json
+      - application/json
       description: Get the long URL for a given short URL token
       parameters:
-        - description: Short URL token
-          in: path
-          name: token
-          required: true
-          type: string
+      - description: Short URL token
+        in: path
+        name: token
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "302":
           description: Redirect to long URL
@@ -58,21 +58,21 @@ paths:
             type: string
       summary: Get long URL
       tags:
-        - URLs
+      - URLs
   /admin/register:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Create a new admin user with the provided email
       parameters:
-        - description: Admin details
-          in: body
-          name: admin
-          required: true
-          schema:
-            $ref: '#/definitions/admin.CreateAdminRequest'
+      - description: Admin details
+        in: body
+        name: admin
+        required: true
+        schema:
+          $ref: '#/definitions/admin.CreateAdminRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Created admin user
@@ -82,26 +82,26 @@ paths:
             type: object
         "400":
           description: Bad request
-          schema: { }
+          schema: {}
         "500":
           description: Internal server error
-          schema: { }
+          schema: {}
       summary: Create admin user
       tags:
-        - Admin
+      - Admin
   /admin/statistic/{password}:
     get:
       consumes:
-        - application/json
+      - application/json
       description: Get statistics for an admin user with the provided password
       parameters:
-        - description: Admin password
-          in: path
-          name: password
-          required: true
-          type: string
+      - description: Admin password
+        in: path
+        name: password
+        required: true
+        type: string
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Statistics events
@@ -111,24 +111,24 @@ paths:
             type: array
         "500":
           description: Internal server error
-          schema: { }
+          schema: {}
       summary: Get admin statistics
       tags:
-        - Admin
+      - Admin
   /shorten:
     post:
       consumes:
-        - application/json
+      - application/json
       description: Create a new short URL for a given long URL
       parameters:
-        - description: URL to be shortened
-          in: body
-          name: url
-          required: true
-          schema:
-            $ref: '#/definitions/url.ShortenRequest'
+      - description: URL to be shortened
+        in: body
+        name: url
+        required: true
+        schema:
+          $ref: '#/definitions/url.ShortenRequest'
       produces:
-        - application/json
+      - application/json
       responses:
         "200":
           description: Short URL
@@ -144,5 +144,5 @@ paths:
             type: string
       summary: Create short URL
       tags:
-        - URLs
+      - URLs
 swagger: "2.0"

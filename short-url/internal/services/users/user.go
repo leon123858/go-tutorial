@@ -35,8 +35,8 @@ func (up *UserPgImpl) CreateUser(email string) (string, error) {
 	return pwd, nil
 }
 
-func (up *UserPgImpl) GetUserStatistics(email string) ([]pg.Event, error) {
-	events, err := up.db.FindEventByUser(email)
+func (up *UserPgImpl) GetUserStatistics(pwd string) ([]pg.Event, error) {
+	events, err := up.db.FindEventByUser(pwd)
 	if err != nil {
 		return nil, err
 	}
@@ -58,7 +58,7 @@ func NewUserService() *UserService {
 	}
 	err = db.Migration()
 	if err != nil {
-		return nil
+		panic(err)
 	}
 	return &UserService{
 		db: &UserPgImpl{
@@ -71,8 +71,8 @@ func (us *UserService) CreateUser(email string) (string, error) {
 	return us.db.CreateUser(email)
 }
 
-func (us *UserService) GetUserStatistics(email string) ([]pg.Event, error) {
-	return us.db.GetUserStatistics(email)
+func (us *UserService) GetUserStatistics(pwd string) ([]pg.Event, error) {
+	return us.db.GetUserStatistics(pwd)
 }
 
 func (us *UserService) CreateEvent(event pg.Event) error {

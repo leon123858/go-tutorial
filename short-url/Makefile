@@ -15,6 +15,7 @@ init:
 	go mod init short-url
 	go install github.com/swaggo/swag/cmd/swag@latest
 	go get -u github.com/swaggo/echo-swagger
+	docker run -d -p 5672:5672 --hostname my-rabbit --name some-rabbit rabbitmq:3
 
 test:
 	go clean -testcache

@@ -111,11 +111,11 @@ func TestClient_FindEventByUser(t *testing.T) {
 	}
 
 	// find events
-	events, err := client.FindEventByUser("email1")
+	events, err := client.FindEventByUser(pwd1)
 	assert.Nil(t, err)
 	assert.Equal(t, 10, len(events))
 
-	events, err = client.FindEventByUser("email2")
+	events, err = client.FindEventByUser(pwd2)
 	assert.Nil(t, err)
 	assert.Equal(t, 10, len(events))
 
