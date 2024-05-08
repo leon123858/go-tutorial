@@ -7,6 +7,7 @@ import (
 	"math/rand"
 	"net/http"
 	"os"
+	"strings"
 	"time"
 )
 
@@ -46,6 +47,7 @@ func init() {
 	}
 	greetCmd.Flags().StringP("name", "n", "World", "Name of the person")
 	rootCmd.AddCommand(greetCmd)
+
 	wgetCmd := &cobra.Command{
 		Use:   "wget",
 		Short: "wget website content",
@@ -64,6 +66,7 @@ func init() {
 		panic(err)
 	}
 	rootCmd.AddCommand(wgetCmd)
+
 	quoteCmd := &cobra.Command{
 		Use:   "quote",
 		Short: "Get a random quote",
@@ -98,6 +101,50 @@ func init() {
 		},
 	}
 	rootCmd.AddCommand(quoteCmd)
+
+	csvCmd := &cobra.Command{
+		Use:   "csv",
+		Short: "read csv file",
+		Long:  "read csv file by path",
+		Run: func(cmd *cobra.Command, args []string) {
+			path, err := cmd.Flags().GetString("path")
+			if err != nil {
+				println("error:", err)
+				return
+			}
+			println("csv:", path)
+			// read csv file
+			text, err := os.ReadFile(path)
+			if err != nil {
+				println("error:", err)
+				return
+			}
+			users := make(map[string]int)
+			for _, line := range strings.Split(string(text), "\n")[1:] {
+				if line == "" {
+					continue
+				}
+				fields := strings.Split(line, ",")
+				if len(fields) < 3 {
+					continue
+				}
+				name := fields[2]
+				if _, ok := users[name]; ok {
+					users[name]++
+					continue
+				}
+				users[name] = 1
+			}
+			for name, count := range users {
+				println(name, count)
+			}
+		},
+	}
+	csvCmd.Flags().StringP("path", "p", "", "csv file path")
+	if err := csvCmd.MarkFlagRequired("path"); err != nil {
+		panic(err)
+	}
+	rootCmd.AddCommand(csvCmd)
 }
 
 func main() {
