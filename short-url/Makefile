@@ -27,7 +27,26 @@ fmt:
 
 build:
 	make fmt
-	go build -o url $(PROGRAM)
+	# go build -o url $(PROGRAM)
+	# CGO_ENABLED=0 GOOS=linux env allow to build a linux binary, that can run in alpine
+	CGO_ENABLED=0 GOOS=linux go build -v -o url $(PROGRAM)
 
 run:
 	go run $(PROGRAM)
+
+docker:
+	docker build -t url .
+	docker run -d -p 8080:8080 url
+	# tag the image
+	docker tag url leon1234858/url:latest
+	# push the image
+	docker push leon1234858/url:latest
+
+k8s:
+	kubectl apply -f k8s.yaml
+	echo "http://127.0.0.1:8080/swagger/index.html"
+	# kubectl delete -f k8s.yaml -R
+	# remove persistent volume
+	# kubectl delete persistentvolumeclaim data-postgres-0
+	# kubectl delete persistentvolumeclaim data-mongodb-0
+	# kubectl get pvc

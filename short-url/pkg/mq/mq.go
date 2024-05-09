@@ -1,10 +1,12 @@
 package mq
 
 import (
+	"fmt"
 	"github.com/streadway/amqp"
+	"os"
 )
 
-const URL = "amqp://guest:guest@localhost:5672/"
+var URL = "amqp://guest:guest@localhost:5672/"
 
 type IMQ interface {
 	// Publish publish a message to a queue
@@ -44,6 +46,10 @@ func (r *RabbitMQ) Consume() (<-chan amqp.Delivery, error) {
 }
 
 func NewIMQ() (rMQ IMQ, err error) {
+	host := os.Getenv("RABBITMQ_HOST")
+	if host != "" {
+		URL = fmt.Sprintf("amqp://guest:guest@%s:5672/", host)
+	}
 	rMQ, err = NewRabbitMQ("userEvent", "", "")
 	if err != nil {
 		return nil, err

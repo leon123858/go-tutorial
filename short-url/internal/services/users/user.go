@@ -1,6 +1,9 @@
 package users
 
-import "short-url/pkg/pg"
+import (
+	"os"
+	"short-url/pkg/pg"
+)
 
 var dsn = pg.Dsn{
 	Host:     "localhost",
@@ -52,6 +55,14 @@ func (up *UserPgImpl) CreateEvent(event pg.Event) error {
 }
 
 func NewUserService() *UserService {
+	host := os.Getenv("POSTGRES_HOST")
+	if host != "" {
+		dsn.Host = host
+	}
+	pwd := os.Getenv("POSTGRES_PASSWORD")
+	if pwd != "" {
+		dsn.Password = pwd
+	}
 	db, err := pg.NewClient(dsn)
 	if err != nil {
 		panic(err)

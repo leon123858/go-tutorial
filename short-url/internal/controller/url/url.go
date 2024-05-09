@@ -33,9 +33,12 @@ func GetLongURL(c echo.Context) error {
 	// get the URL
 	url, err := Up.GetLongURL(token)
 	if err != nil {
+		// for middleware record event
+		c.Set("log", false)
 		return c.String(http.StatusNotFound, "not found")
 	}
 	// for middleware record event
+	c.Set("log", true)
 	c.Set("url", url)
 	return c.Redirect(http.StatusFound, url.LongURL)
 }

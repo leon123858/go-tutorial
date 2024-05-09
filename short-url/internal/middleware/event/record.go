@@ -22,7 +22,7 @@ func init() {
 func RecordEvent(next echo.HandlerFunc) echo.HandlerFunc {
 	return func(c echo.Context) error {
 		res := next(c)
-		if res == nil {
+		if res == nil && c.Get("log").(bool) {
 			// record the event
 			url := c.Get("url").(mongo.Url)
 			event := pg.Event{

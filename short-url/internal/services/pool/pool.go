@@ -2,6 +2,8 @@ package pool
 
 import (
 	"errors"
+	"fmt"
+	"os"
 	"short-url/pkg/key"
 	"short-url/pkg/mongo"
 	"short-url/pkg/rdb"
@@ -94,15 +96,24 @@ func (up *UrlPool) CreateShortURL(longURL, password string) (string, error) {
 }
 
 func NewUrlPool() (pool IUrlPool, err error) {
+	// env
+	dbHost := os.Getenv("MONGO_HOST")
+	if dbHost == "" {
+		dbHost = "localhost"
+	}
+	cacheHost := os.Getenv("REDIS_HOST")
+	if cacheHost == "" {
+		cacheHost = "localhost"
+	}
 	// init DB
 	mp := new(UrlPoolDBImpl)
-	mp.db, err = mongo.NewClient("mongodb://localhost:27017")
+	mp.db, err = mongo.NewClient(fmt.Sprintf("mongodb://%s:27017", dbHost))
 	if err != nil {
 		return nil, err
 	}
 	// init cache
 	rp := new(UrlPoolCacheImpl)
-	rp.cache = rdb.NewClient("localhost:6379", mp.db)
+	rp.cache = rdb.NewClient(fmt.Sprintf("%s:6379", cacheHost), mp.db)
 	// wrap the pool
 	pool = &UrlPool{
 		db:    mp,

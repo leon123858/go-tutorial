@@ -36,6 +36,11 @@ func main() {
 	// swagger docs
 	e.GET("/swagger/*", echoSwagger.WrapHandler)
 
+	// infra
+	e.GET("/health", func(c echo.Context) error {
+		return c.String(http.StatusOK, "OK")
+	})
+
 	// Routes
 	e.GET("/:token", url.GetLongURL, event.RecordEvent)
 	e.POST("/shorten", url.SetSortURL)
