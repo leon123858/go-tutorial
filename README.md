@@ -58,8 +58,8 @@
 10. lecture 10
 
 ## 課程問卷
-- [Baseline Assessment/Need Alalysis](https://docs.google.com/forms/d/e/1FAIpQLScnzrqdXPqXW5OJgNMPmIh86V8tELuapGzm0bhBa_XFgdzgHw/viewform?usp=sharing)
+- [課前調查](https://forms.gle/MSHWaqk11gGDsezb6)
   <!--姓名_日期_回饋-->
-- [課後調查](https://docs.google.com/forms/d/e/1FAIpQLScphHcVpaldyziaRwJls0Pc_w-U8S44D3MrMZbid4OYAKqtUQ/viewform?usp=sharing)
+- [課後回饋](https://forms.gle/D48U37tbWBmc4y3u6)
   <!--姓名_作業-->
-- [作業繳交](https://docs.google.com/forms/d/e/1FAIpQLSebOsE9iTw8VmSBPus1oeFNBo2t2BhhYpGCPLl7KgIAMlk94A/viewform?usp=sharing)
+- [作業繳交](https://forms.gle/3sawerMPGQMQxjDU9)
