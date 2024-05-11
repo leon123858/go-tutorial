@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  app:
+    image: leon1234858/gke-poc:arm64
+#    image: leon1234858/gke-poc:latest
+    ports:
+      - 80:80
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+      POSTGRES_HOST: postgres
+      REDIS_HOST: redis
+    depends_on:
+      - postgres
+      - redis
+
+  postgres:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: mysecretpassword
+
+  redis:
+    image: redis

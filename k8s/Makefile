@@ -12,5 +12,9 @@ delete:
 	kubectl delete persistentvolumeclaim redis-storage-redis-0
 	kubectl delete persistentvolumeclaim postgres-storage-postgres-0
 
+docker:
+	#docker compose up -d
+	docker compose down
+
 origin:
 	echo "preview on: https://leon1234858.notion.site/GKE-Cloud-SQL-Memorystore-08d4a16f0d2544f0a330af8ea49251a9?pvs=4"
