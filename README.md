@@ -31,32 +31,51 @@
 
 ## 課程資料
 
-1. lecture 1
-   - ppt: [go 簡介](./ppt/introduction.pdf)
-2. lecture 2
-3. lecture 3
-4. lecture 4
-5. lecture 5
-6. lecture 6
-7. lecture 7
-8. lecture 8
-9. lecture 9
-10. lecture 10
+- Go 與其他語言
+  - [ppt](./ppt/Go_Lesson_01.pptx.pdf)
+- Go 與設計模式
+  - [ppt](./ppt/Go_Lesson_02.pptx.pdf)
+- Go 與併發設計
+  - [ppt](./ppt/Go_Lesson_03.pptx.pdf)
+- Go 與作業系統
+  - [ppt](./ppt/Go_Lesson_04.pptx.pdf)
+- Go 與資料庫
+  - [ppt](./ppt/Go_Lesson_05.pptx.pdf)
+- Go 與後端開發
+  - [ppt](./ppt/Go_Lesson_06.pptx.pdf)
+- Go 與雲原生
+  - [ppt](./ppt/Go_Lesson_07.pptx.pdf)
+- Go 與 K8s
+  - [ppt](./ppt/Go_Lesson_08.pptx.pdf)
 
 ## 課程程式碼
 
-1. lecture 1
-   - [go 語法](./go-tour)
-2. lecture 2
-3. lecture 3
-4. lecture 4
-5. lecture 5
-6. lecture 6
-7. lecture 7
-8. lecture 8
-9. lecture 9
-10. lecture 10
-
+- Go 與其他語言
+  - [基本語法1](./go-tour/cmd/basic.go)
+  - [基本語法2](./go-tour/cmd/flow.go)
+  - [基本語法3](./go-tour/cmd/type.go)
+  - [CLI 範例](./cli-sample)
+- Go 與設計模式
+  - [基本語法4](./go-tour/cmd/interface.go)
+  - [基本語法5](./go-tour/cmd/generic.go)
+  - [設計模式](./design-pattern)
+- Go 與併發設計
+  - [基本語法6](./go-tour/cmd/concurrency.go)
+  - [queue and stack](./data-structure)
+  - [todoList GUI](./gui)
+- Go 與作業系統
+  - [高併發爬蟲](./web-crawler)
+- Go 與資料庫
+  - [database CRUD](./db) 
+- Go 與後端開發
+  - [backend sample](./backend)
+  - [短網址服務](./short-url)
+- Go 與雲原生
+  - [message queue](./mq)
+  - [短網址服務容器化](./short-url/Dockerfile)
+- Go 與 K8s
+  - [k8s](./k8s)
+  - [短網址服務k8s](./short-url/k8s.yaml)
 ## 課程問卷
 - [課前調查](https://forms.gle/MSHWaqk11gGDsezb6)
   <!--姓名_日期_回饋-->
