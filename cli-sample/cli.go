@@ -35,6 +35,39 @@ var rootCmd = &cobra.Command{
 	Short: "cli is a simple command line tool",
 }
 
+func getQuote() string {
+	quotes := []string{
+		"The journey of a thousand miles begins with one step. - Lao Tzu",
+		"That which does not kill us makes us stronger. - Friedrich Nietzsche",
+		"Life is like riding a bicycle. To keep your balance, you must keep moving. - Albert Einstein",
+		"Life is really simple, but we insist on making it complicated. - Confucius",
+		"Life is what happens when you're busy making other plans. - John Lennon",
+		"Life is 10% what happens to us and 90% how we react to it. - Charles R. Swindoll",
+		"Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow. Let reality be reality. Let things flow naturally forward in whatever way they like. - Lao Tzu",
+		"Life is a long lesson in humility. - James M. Barrie",
+		"Life is a question and how we live it is our answer. - Gary Keller",
+		"Life is a dream for the wise, a game for the fool, a comedy for the rich, a tragedy for the poor. - Sholom Aleichem",
+		"Life is a gift, and it offers us the privilege, opportunity, and responsibility to give something back by becoming more. - Tony Robbins",
+		"Life is a daring adventure or nothing at all. - Helen Keller",
+		"Life is a great big canvas, and you should throw all the paint on it you can. - Danny Kaye",
+		"Life is a mirror and will reflect back to the thinker what he thinks into it. - Ernest Holmes",
+		"Life is a process of becoming, a combination of states we have to go through. Where people fail is that they wish to elect a state and remain in it. This is a kind of death. - Anais Nin",
+		"Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow. Let reality be reality. Let things flow naturally forward in whatever way they like. - Lao Tzu",
+		// ... 添加更多名言
+	}
+	if len(quotes) == 0 {
+		println("no quotes, please add some quotes first.")
+		return ""
+	}
+	// init random generator
+	source := rand.NewSource(time.Now().UnixNano())
+	randomGenerator := rand.New(source)
+	// 獲取 0 到 n-1 之間的隨機整數
+	randomNum := randomGenerator.Intn(len(quotes))
+	quote := quotes[randomNum]
+	return quote
+}
+
 func init() {
 	greetCmd := &cobra.Command{
 		Use:   "greet",
@@ -72,31 +105,11 @@ func init() {
 		Short: "Get a random quote",
 		Long:  `This command prints a random quote from a famous person.`,
 		Run: func(cmd *cobra.Command, args []string) {
-			quotes := []string{
-				"The journey of a thousand miles begins with one step. - Lao Tzu",
-				"That which does not kill us makes us stronger. - Friedrich Nietzsche",
-				"Life is like riding a bicycle. To keep your balance, you must keep moving. - Albert Einstein",
-				"Life is really simple, but we insist on making it complicated. - Confucius",
-				"Life is what happens when you're busy making other plans. - John Lennon",
-				"Life is 10% what happens to us and 90% how we react to it. - Charles R. Swindoll",
-				"Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow. Let reality be reality. Let things flow naturally forward in whatever way they like. - Lao Tzu",
-				"Life is a long lesson in humility. - James M. Barrie",
-				"Life is a question and how we live it is our answer. - Gary Keller",
-				"Life is a dream for the wise, a game for the fool, a comedy for the rich, a tragedy for the poor. - Sholom Aleichem",
-				"Life is a gift, and it offers us the privilege, opportunity, and responsibility to give something back by becoming more. - Tony Robbins",
-				"Life is a daring adventure or nothing at all. - Helen Keller",
-				"Life is a great big canvas, and you should throw all the paint on it you can. - Danny Kaye",
-				"Life is a mirror and will reflect back to the thinker what he thinks into it. - Ernest Holmes",
-				"Life is a process of becoming, a combination of states we have to go through. Where people fail is that they wish to elect a state and remain in it. This is a kind of death. - Anais Nin",
-				"Life is a series of natural and spontaneous changes. Don't resist them; that only creates sorrow. Let reality be reality. Let things flow naturally forward in whatever way they like. - Lao Tzu",
-				// ... 添加更多名言
+			quote := getQuote()
+			if quote == "" {
+				panic("no quotes, please add some quotes first.")
+				return
 			}
-			// init random generator
-			source := rand.NewSource(time.Now().UnixNano())
-			randomGenerator := rand.New(source)
-			// 獲取 0 到 n 之間的隨機整數
-			randomNum := randomGenerator.Intn(len(quotes) + 1)
-			quote := quotes[randomNum]
 			fmt.Println(quote)
 		},
 	}
