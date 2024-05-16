@@ -33,9 +33,10 @@
 
 - Go 與其他語言
   - [ppt](./ppt/Go_Lesson_01.pptx.pdf)
-  - [note](./note/Go_Lesson_01.note.pdf)
+  - [note](./note/Go_Lesson_01.pptx.pdf)
 - Go 與設計模式
   - [ppt](./ppt/Go_Lesson_02.pptx.pdf)
+  - [note](./note/Go_Lesson_02.pptx.pdf)
 - Go 與併發設計
   - [ppt](./ppt/Go_Lesson_03.pptx.pdf)
 - Go 與作業系統
