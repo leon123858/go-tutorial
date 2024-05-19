@@ -79,15 +79,12 @@ func initCache(e EvictionAlgo) *Cache {
 func (c *Cache) add(key, value string) {
 	if c.capacity == c.maxCapacity {
 		c.evictionAlgo.evict(c)
+		c.capacity--
 	}
-	c.evictionAlgo.update(c)
-	c.update(key, value)
-}
-
-func (c *Cache) update(key, value string) {
 	c.capacity++
 	c.storage[key] = value
 	c.record[key] = 1
+	c.evictionAlgo.update(c)
 }
 
 func (c *Cache) delete(key string) {
@@ -111,4 +108,6 @@ func main() {
 	cache2.add("a", "1")
 	cache2.add("b", "2")
 	cache2.add("c", "3")
+	cache2.add("d", "4")
+	cache2.add("e", "5")
 }
