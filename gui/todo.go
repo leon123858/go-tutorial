@@ -106,13 +106,11 @@ func NewAsyncWriteFileResult(im int) AsyncWriteFileResult {
 
 func (w *wgImpl) Write(filename, content string) {
 	w.wg.Add(1)
-	go func() {
-		defer w.wg.Done()
-		err := writeToFile(filename, content)
-		if err != nil {
-			return
-		}
-	}()
+	defer w.wg.Done()
+	err := writeToFile(filename, content)
+	if err != nil {
+		return
+	}
 }
 
 func (w *wgImpl) Wait() {
@@ -120,13 +118,11 @@ func (w *wgImpl) Wait() {
 }
 
 func (a *atomicImpl) Write(filename, content string) {
-	go func() {
-		err := writeToFile(filename, content)
-		if err != nil {
-			return
-		}
-		a.an.Add(-1)
-	}()
+	err := writeToFile(filename, content)
+	if err != nil {
+		return
+	}
+	a.an.Add(1)
 }
 
 func (a *atomicImpl) Wait() {
@@ -136,14 +132,12 @@ func (a *atomicImpl) Wait() {
 }
 
 func (c *chImpl) Write(filename, content string) {
-	go func() {
-		err := writeToFile(filename, content)
-		if err != nil {
-			c.ch <- false
-			return
-		}
-		c.ch <- true
-	}()
+	err := writeToFile(filename, content)
+	if err != nil {
+		c.ch <- false
+		return
+	}
+	c.ch <- true
 }
 
 func (c *chImpl) Wait() {
@@ -160,7 +154,7 @@ func (c *chImpl) Wait() {
 }
 
 func exportTodos(todos TodoList) {
-	awft := NewAsyncWriteFileResult(3)
+	awft := NewAsyncWriteFileResult(1)
 	nameArray := []string{"todo.json", "todo.csv", "todo.html", "todo.md", "todo.txt"}
 	contentArray := []string{todos.toJSON(), todos.toCSV(), todos.toHTML(), todos.toMarkdown(), todos.toText()}
 	for i, name := range nameArray {
