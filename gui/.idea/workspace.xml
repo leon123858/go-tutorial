@@ -4,9 +4,8 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="79a20e24-d7c6-47f4-996a-cb4a6c569c2d" name="Changes" comment="gui ok">
+    <list default="true" id="79a20e24-d7c6-47f4-996a-cb4a6c569c2d" name="Changes" comment="gui debug">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/todo.go" beforeDir="false" afterPath="$PROJECT_DIR$/todo.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -114,7 +113,8 @@
     <MESSAGE value="gui" />
     <MESSAGE value="add concurrency" />
     <MESSAGE value="gui ok" />
-    <option name="LAST_COMMIT_MESSAGE" value="gui ok" />
+    <MESSAGE value="gui debug" />
+    <option name="LAST_COMMIT_MESSAGE" value="gui debug" />
   </component>
   <component name="VgoProject">
     <settings-migrated>true</settings-migrated>
