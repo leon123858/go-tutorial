@@ -1,13 +1,15 @@
 # Multithreaded Queue and Stack in Go
 
-This is an example implementation of a multithreaded queue and stack in Go without using channels. The code demonstrates how to create thread-safe queue and stack data structures using `sync.Mutex` for synchronization.
+This is an example implementation of a multithreaded queue and stack in Go without using channels. The code demonstrates
+how to create thread-safe queue and stack data structures using `sync.Mutex` for synchronization.
 
 ## Queue
 
 The `Queue` struct represents a queue and has the following methods:
 
 - `Enqueue(item int)`: Adds an item to the rear of the queue.
-- `Dequeue() (int, bool)`: Removes and returns the item from the front of the queue. Returns `false` if the queue is empty.
+- `Dequeue() (int, bool)`: Removes and returns the item from the front of the queue. Returns `false` if the queue is
+  empty.
 
 ## Stack
 
@@ -66,14 +68,19 @@ The `Stack` struct represents a stack and has the following methods:
 
 ## Synchronization
 
-The code uses `sync.Mutex` to ensure thread safety for the queue and stack operations. Each method of the `Queue` and `Stack` structs acquires a lock using `lock.Lock()` before accessing the shared data and releases the lock using `defer lock.Unlock()` to prevent data races.
+The code uses `sync.Mutex` to ensure thread safety for the queue and stack operations. Each method of the `Queue`
+and `Stack` structs acquires a lock using `lock.Lock()` before accessing the shared data and releases the lock
+using `defer lock.Unlock()` to prevent data races.
 
 ## Concurrency
 
-The code demonstrates concurrent operations on the queue and stack using goroutines. Multiple goroutines are spawned to perform enqueue/push operations simultaneously. The main goroutine waits for all the worker goroutines to complete using `sync.WaitGroup` before proceeding with dequeue/pop operations.
+The code demonstrates concurrent operations on the queue and stack using goroutines. Multiple goroutines are spawned to
+perform enqueue/push operations simultaneously. The main goroutine waits for all the worker goroutines to complete
+using `sync.WaitGroup` before proceeding with dequeue/pop operations.
 
 ## Output
 
-The code includes `fmt.Printf` statements to display the enqueued/pushed items and the dequeued/popped items. The output will show the order in which the items were added to and removed from the queue and stack.
+The code includes `fmt.Printf` statements to display the enqueued/pushed items and the dequeued/popped items. The output
+will show the order in which the items were added to and removed from the queue and stack.
 
 Feel free to use and modify this code as needed for your specific requirements.
