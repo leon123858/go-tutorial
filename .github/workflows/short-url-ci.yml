@@ -21,17 +21,17 @@ jobs:
       with:
         go-version: '1.22'
         
-    - name: Change directory
-      run: cd ./short-url
-        
     - name: Install Swag
       run: go install github.com/swaggo/swag/cmd/swag@latest
         
     - name: Generate Swagger Docs
       run: make swag
+      working-directory: ./short-url
         
     - name: Run Tests
       run: make test
+      working-directory: ./short-url
         
     - name: Build
       run: make build
+      working-directory: ./short-url
