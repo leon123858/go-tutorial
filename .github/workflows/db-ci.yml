@@ -1,4 +1,4 @@
-name: Go
+name: db-ci
 
 on:
   push:
