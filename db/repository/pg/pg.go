@@ -107,7 +107,7 @@ func QueryRecords(db *sql.DB) ([]*model.User, error) {
 			log.Println(err)
 			return nil, err
 		}
-		fmt.Printf("%d. %s (%s)\n", id, name, email)
+		fmt.Println(id, name, email)
 		users = append(users, &model.User{
 			ID:    id,
 			Name:  name,
