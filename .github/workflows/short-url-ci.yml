@@ -10,6 +10,10 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
+    strategy:
+      matrix:
+        mongodb-version: ['7.0']
+
     services:
       postgres:
         image: postgres:13
@@ -35,20 +39,6 @@ jobs:
         ports:
           - 6379:6379
 
-      mongodb:
-        image: mongo
-        env:
-          MONGO_INITDB_ROOT_USERNAME: test
-          MONGO_INITDB_ROOT_PASSWORD: password
-          MONGO_INITDB_DATABASE: test
-        options: >-
-          --health-cmd mongo
-          --health-interval 10s
-          --health-timeout 5s
-          --health-retries 5
-        ports:
-          - 27017:27017
-
       rabbitmq:
         image: rabbitmq
         env:
@@ -69,6 +59,11 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version: '1.22'
+
+      - name: Start MongoDB
+        uses: supercharge/mongodb-github-action@1.11.0
+        with:
+          mongodb-version: ${{ matrix.mongodb-version }}
 
       - name: Install Swag
         run: go install github.com/swaggo/swag/cmd/swag@latest
