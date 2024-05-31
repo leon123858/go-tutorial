@@ -45,6 +45,7 @@
     - [note](./note/Go_Lesson_04.pptx.pdf)
 - Go 與資料庫
     - [ppt](./ppt/Go_Lesson_05.pptx.pdf)
+    - [note](./note/Go_Lesson_05.pptx.pdf)
 - Go 與後端開發
     - [ppt](./ppt/Go_Lesson_06.pptx.pdf)
 - Go 與雲原生
