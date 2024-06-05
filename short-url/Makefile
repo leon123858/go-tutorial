@@ -41,6 +41,10 @@ docker:
 	docker tag url leon1234858/url:latest
 	# push the image
 	docker push leon1234858/url:latest
+	# amd
+	# docker buildx build --no-cache -t url -f ./Dockerfile --platform linux/amd64 .
+	# docker tag url leon1234858/url:amd
+	# docker push leon1234858/url:amd
 
 k8s:
 	kubectl apply -f k8s.yaml
