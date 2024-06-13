@@ -37,6 +37,9 @@ func Test_generateKey(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			generateKey(tt.args.randGen, tt.args.result)
+			if got := <-tt.args.result; got != tt.want {
+				t.Errorf("generateKey() = %v, want %v", got, tt.want)
+			}
 		})
 	}
 }
