@@ -79,7 +79,6 @@
 - Go 與雲原生
   - [message queue](./mq)
   - [短網址服務容器化](./short-url/Dockerfile)
-  - [短網址服務](./short-url)
 - Go 與 K8s
   - [k8s](./k8s)
   - [短網址服務 k8s](./short-url/k8s.yaml)
