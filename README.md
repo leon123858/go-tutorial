@@ -51,6 +51,7 @@
   - [note](./note/Go_Lesson_06.pptx.pdf)
 - Go 與雲原生
   - [ppt](./ppt/Go_Lesson_07.pptx.pdf)
+  - [note](./note/Go_Lesson_07.pptx.pdf)
 - Go 與 K8s
   - [ppt](./ppt/Go_Lesson_08.pptx.pdf)
 
