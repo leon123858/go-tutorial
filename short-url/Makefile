@@ -36,7 +36,7 @@ run:
 
 docker:
 	docker build -t url .
-	docker run -d -p 8080:8080 url
+	#docker run -d -p 8080:8080 url
 	# tag the image
 	docker tag url leon1234858/url:latest
 	# push the image
