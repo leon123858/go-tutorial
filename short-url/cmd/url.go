@@ -5,13 +5,16 @@ import (
 	"errors"
 	"fmt"
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 	"github.com/swaggo/echo-swagger"
 	"log"
 	"net/http"
-	_ "short-url/docs"
+	"os"
+	docs "short-url/docs"
 	adminService "short-url/internal/controller/admin"
 	"short-url/internal/controller/url"
 	"short-url/internal/middleware/event"
+	"short-url/pkg/network"
 	"short-url/pkg/pg"
 	"time"
 )
@@ -28,10 +31,26 @@ import (
 //	@license.url	http://www.apache.org/licenses/LICENSE-2.0.html
 
 // @host		127.0.0.1:8080
+// @schemes	http https
 // @BasePath	/
 func main() {
 	StartMQServer()
+
+	// prod
+	if os.Getenv("GO_ENV") == "release" {
+		ip, err := network.GetServerIP()
+		if err != nil {
+			log.Fatal(err)
+		}
+		docs.SwaggerInfo.Host = ip + ":8080"
+	}
+
 	e := echo.New()
+
+	// middleware
+	e.Use(middleware.CORS())
+	//e.Use(middleware.Logger())
+	e.Use(middleware.Recover())
 
 	// swagger docs
 	e.GET("/swagger/*", echoSwagger.WrapHandler)

@@ -234,7 +234,7 @@ var SwaggerInfo = &swag.Spec{
 	Version:          "1.0",
 	Host:             "127.0.0.1:8080",
 	BasePath:         "/",
-	Schemes:          []string{},
+	Schemes:          []string{"http", "https"},
 	Title:            "Simple Short URL API Server",
 	Description:      "This is a sample in go tutorial for building a short URL service",
 	InfoInstanceName: "swagger",
