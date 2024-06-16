@@ -35,22 +35,25 @@ run:
 	go run $(PROGRAM)
 
 docker:
-	docker build -t url .
+	#docker build -t url .
 	#docker run -d -p 8080:8080 url
 	# tag the image
-	docker tag url leon1234858/url:latest
+	#docker tag url leon1234858/url:latest
 	# push the image
-	docker push leon1234858/url:latest
-	# amd
-	# docker buildx build --no-cache -t url -f ./Dockerfile --platform linux/amd64 .
-	# docker tag url leon1234858/url:amd
-	# docker push leon1234858/url:amd
+	#docker push leon1234858/url:latest
+
+docker-amd:
+	docker buildx build --no-cache -t url -f ./Dockerfile --platform linux/amd64 .
+	docker tag url leon1234858/url:amd
+	docker push leon1234858/url:amd
 
 k8s:
 	kubectl apply -f k8s.yaml
 	echo "http://127.0.0.1:8080/swagger/index.html"
-	# kubectl delete -f k8s.yaml -R
+
+k8s-clean:
+	kubectl delete -f k8s.yaml -R
 	# remove persistent volume
-	# kubectl delete persistentvolumeclaim data-postgres-0
-	# kubectl delete persistentvolumeclaim data-mongodb-0
-	# kubectl get pvc
+	kubectl delete persistentvolumeclaim data-postgres-0
+	kubectl delete persistentvolumeclaim data-mongodb-0
+	kubectl get pvc
