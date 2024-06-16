@@ -35,12 +35,15 @@ run:
 	go run $(PROGRAM)
 
 docker:
-	#docker build -t url .
-	#docker run -d -p 8080:8080 url
+	# build the image
+	docker build -t url .
 	# tag the image
-	#docker tag url leon1234858/url:latest
+	docker tag url leon1234858/url:latest
 	# push the image
-	#docker push leon1234858/url:latest
+	docker push leon1234858/url:latest
+
+docker-run:
+	docker run -d -p 8080:8080 url
 
 docker-amd:
 	docker buildx build --no-cache -t url -f ./Dockerfile --platform linux/amd64 .
