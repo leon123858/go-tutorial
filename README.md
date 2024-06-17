@@ -54,6 +54,7 @@
   - [note](./note/Go_Lesson_07.pptx.pdf)
 - Go 與 K8s
   - [ppt](./ppt/Go_Lesson_08.pptx.pdf)
+  - [note](./note/Go_Lesson_08.pptx.pdf)
 
 ## 課程程式碼
 
